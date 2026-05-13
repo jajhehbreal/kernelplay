@@ -2,19 +2,20 @@ import { Component } from "../Component.js";
 
 export class AudioSource extends Component {
     constructor({
-        clip = null,
-        volume = 1,
-        loop = false,
-        playOnStart = false
+        clip        = null,
+        volume      = 1,
+        loop        = false,
+        playOnStart = false,
     } = {}) {
         super();
 
-        this.clip = clip;
-        this.volume = volume;
-        this.loop = loop;
+        this.clip        = clip;
+        this.volume      = volume;
+        this.loop        = loop;
         this.playOnStart = playOnStart;
 
-        this._instances = [];
+        // active handles returned by AudioManager — used for stopAll / position sync
+        this._handles = [];
     }
 
     init() {
@@ -22,53 +23,71 @@ export class AudioSource extends Component {
     }
 
     start() {
-        if (this.playOnStart) {
-            this.play();
-        }
+        if (this.playOnStart) this.play();
     }
 
-    // 🔊 play default clip
-    play() {
+    // ─────────────────────────────────────────────
+    //  PUBLIC API
+    // ─────────────────────────────────────────────
+
+    /** Play the default clip. Respects loop flag. */
+    play(options = {}) {
         if (!this.clip) return;
-
-        if (this.loop) {
-            return this.playLoop(this.clip);
-        } else {
-            return this.playOneShot(this.clip);
-        }
+        return this.loop
+            ? this.playLoop(this.clip, options)
+            : this.playOneShot(this.clip, options);
     }
 
-    // 🔥 SFX (overlapping)
+    /**
+     * Play a one-shot SFX (can overlap).
+     * Spatial volume is driven by transform position.
+     */
     playOneShot(clip, options = {}) {
-        const audio = this.entity.scene.game.audio.play(clip, {
-            volume: options.volume ?? this.volume,
-            position: this.transform?.position
+        const handle = this._audio().play(clip, {
+            volume:   options.volume ?? this.volume,
+            position: this.transform?.position ?? null,
         });
 
-        this._instances.push(audio);
-
-        // cleanup
-        audio.onended = () => {
-            this._instances = this._instances.filter(a => a !== audio);
-        };
-
-        return audio;
+        this._handles.push(handle);
+        return handle;
     }
 
-    // 🎵 Looping sound (music / ambient)
+    /**
+     * Play a looping sound at this entity's position.
+     * FIX: position is now passed → distance fade works for loops too.
+     * FIX: uses Web Audio API loop → no gap/delay.
+     */
     playLoop(clip, options = {}) {
-        const audio = this.entity.scene.game.audio.playLoop(clip, {
-            volume: options.volume ?? this.volume
+        const handle = this._audio().playLoop(clip, {
+            volume:   options.volume ?? this.volume,
+            position: this.transform?.position ?? null,
         });
 
-        this._instances.push(audio);
-        return audio;
+        this._handles.push(handle);
+        return handle;
     }
 
+    /** Stop all sounds on this source. */
     stopAll() {
-        for (const a of this._instances) {
-            a.pause();
+        for (const h of this._handles) h.stop();
+        this._handles = [];
+    }
+
+    update() {
+        // If this source has looping handles with positions, keep them synced
+        // as the entity moves through the world.
+        if (this.transform) {
+            for (const h of this._handles) {
+                h.setPosition?.(this.transform.position);
+            }
         }
-        this._instances = [];
+    }
+
+    // ─────────────────────────────────────────────
+    //  INTERNAL
+    // ─────────────────────────────────────────────
+
+    _audio() {
+        return this.entity.scene.game.audio;
     }
 }

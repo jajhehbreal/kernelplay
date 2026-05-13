@@ -37,4 +37,10 @@ const game = new MyGame({
   // debugPhysics: true
 });
 
+await game.audio.loadAll([
+    './assets/jump.mp3',
+    './assets/run.mp3',
+    // "music/theme.mp3",
+]);
+
 game.start();

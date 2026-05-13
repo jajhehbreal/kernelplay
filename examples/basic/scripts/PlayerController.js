@@ -28,15 +28,25 @@ export class PlayerController extends ScriptComponent {
         // this.camera = this.entity.scene.game.camera;
         // console.log(this.camera);
 
+        this._runHandle = null;
+        this._isRunningSoundPlaying = false;
+        this._isJumping = false;
+
         // Animation callbacks
         this.animator.onAnimationEnd = (animName) => {
             if (animName === "attack") {
                 this.animator.play("idle");
-                this.audio.stopAll();
+                // this.audio.stopAll();
+                // this._runHandle?.stop();
+                // this._runHandle = null;
+                // this._isRunningSoundPlaying = false;
             }
             if (animName === "jump") {
                 this.animator.play("idle");
-                this.audio.stopAll();
+                // this.audio.stopAll();
+                // this._runHandle?.stop();
+                // this._runHandle = null;
+                // this._isRunningSoundPlaying = false;
             }
         };
     }
@@ -123,11 +133,22 @@ export class PlayerController extends ScriptComponent {
 
 
         if (rb.isGrounded) {
+            if (this._isJumping) this._isJumping = false;
             if (Keyboard.isPressed(KeyCode.Space)) {
                 rb.addForce(0, -600, "impulse");
                 this.isGround = false;
                 // this.animator.play("jump");
                 this.animator.setTrigger("jump");
+
+                // this.audio.stopAll();
+                // this._runHandle?.stop();
+                // this._runHandle = null;
+                // this._isRunningSoundPlaying = false;
+
+                this.audio.playOneShot('./assets/jump.mp3', {
+                    volume: 0.1,
+                });
+                this._isJumping = true;
 
                 // if (!this.animator.isAnimationPlaying("jump")) {
                 //     this.audio.stopAll();
@@ -140,6 +161,37 @@ export class PlayerController extends ScriptComponent {
 
                 //     // console.log(this.entity.scene.game.audio.listener);
                 // }
+            }
+        }
+
+        // if (isMoving && rb.isGrounded) {
+        //     if (!this._isRunningSoundPlaying) {
+        //         this.audio.playLoop('./assets/run.mp3', {
+        //             volume: 0.5,
+        //         });
+        //         this._isRunningSoundPlaying = true;
+        //         console.log("running");
+        //     }
+        // } else {
+        //     if (this._isRunningSoundPlaying) {
+        //         if (!this._isJumping) this.audio.stopAll();
+        //         this._isRunningSoundPlaying = false;
+        //     }
+        // }
+
+        if (isMoving && rb.isGrounded) {
+            if (!this._isRunningSoundPlaying) {
+                this._runHandle = this.audio.playLoop('./assets/run.mp3', {
+                    volume: 0.5,
+                    position: transform.position
+                });
+                this._isRunningSoundPlaying = true;
+            }
+        } else {
+            if (this._isRunningSoundPlaying) {
+                this._runHandle?.stop();
+                this._runHandle = null;
+                this._isRunningSoundPlaying = false;
             }
         }
 

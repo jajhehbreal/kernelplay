@@ -37,6 +37,7 @@ export class Game {
         
         this.update(dt);
         this.sceneManager.update(dt);
+        this.audio.update();
         
         Keyboard.update();
         Mouse.update();
