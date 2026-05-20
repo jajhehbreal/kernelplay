@@ -28,7 +28,7 @@ export class PlayerController extends ScriptComponent {
         // this.camera = this.entity.scene.game.camera;
         // console.log(this.camera);
 
-        this._runHandle = null;
+        // this._runHandle = null;
         this._isRunningSoundPlaying = false;
         this._isJumping = false;
 
@@ -179,20 +179,26 @@ export class PlayerController extends ScriptComponent {
         //     }
         // }
 
+        // if (isMoving && rb.isGrounded) {
+        //     if (!this._isRunningSoundPlaying) {
+        //         this._runHandle = this.audio.playLoop('./assets/run.mp3', {
+        //             volume: 0.5,
+        //             position: transform.position
+        //         });
+        //         this._isRunningSoundPlaying = true;
+        //     }
+        // } else {
+        //     if (this._isRunningSoundPlaying) {
+        //         this._runHandle?.stop();
+        //         this._runHandle = null;
+        //         this._isRunningSoundPlaying = false;
+        //     }
+        // }
+
         if (isMoving && rb.isGrounded) {
-            if (!this._isRunningSoundPlaying) {
-                this._runHandle = this.audio.playLoop('./assets/run.mp3', {
-                    volume: 0.5,
-                    position: transform.position
-                });
-                this._isRunningSoundPlaying = true;
-            }
+            this.audio.playLoop('run', { volume: 0.5 });
         } else {
-            if (this._isRunningSoundPlaying) {
-                this._runHandle?.stop();
-                this._runHandle = null;
-                this._isRunningSoundPlaying = false;
-            }
+            this.audio.stopLoop('run');
         }
 
         // Animation state machine
