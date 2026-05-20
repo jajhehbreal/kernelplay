@@ -92,67 +92,78 @@ export class Level1 extends Scene {
 
     console.log(this);
 
-    const label = this.game.ui.add(new UIText({
-      text: "Score: 0",
-      anchor: "topRight",
-      offset: { x: 20, y: 20 },
+    this.fpsText = this.game.ui.add(new UIText({
+      text: `FPS: 00`,
+      anchor: "topLeft",
+      offset: { x: 5, y: 5 },
       style: {
-        textColor: "#ff0000",
-        fontSize: 18,
-        fontWeight: "bold",
-      },
-    }));
-
-    const btn = this.game.ui.add(new UIButton({
-      label: "Play",
-      anchor: "center",
-      offset: { x: 0, y: 0 },
-      width: 160,
-      height: 48,
-      zIndex: 1,
-      style: {
-        primaryColor: "#4a90e2",
-        hoverColor: "#5aa0f2",
-        pressColor: "#3a80d2",
+        textColor: "#1d1d1d",
         fontSize: 16,
-        fontWeight: "bold",
+        // fontWeight: "bold",
       },
     }));
 
-    btn.onClick = () => {
-      console.log("Play clicked!");
-      // this.game.sceneManager.startScene("Game");
-    };
+    // const label = this.game.ui.add(new UIText({
+    //   text: "Score: 0",
+    //   anchor: "topRight",
+    //   offset: { x: 20, y: 20 },
+    //   style: {
+    //     textColor: "#ff0000",
+    //     fontSize: 18,
+    //     fontWeight: "bold",
+    //   },
+    // }));
 
-    const sfxToggle = this.game.ui.add(new UICheckbox({
-      label: "Sound Effects",
-      checked: true,
-      anchor: "middleLeft",
-      offset: { x: 0, y: -20 },
-      width: 200,
-      height: 30,
-    }));
+    // const btn = this.game.ui.add(new UIButton({
+    //   label: "Play",
+    //   anchor: "center",
+    //   offset: { x: 0, y: 0 },
+    //   width: 160,
+    //   height: 48,
+    //   zIndex: 1,
+    //   style: {
+    //     primaryColor: "#4a90e2",
+    //     hoverColor: "#5aa0f2",
+    //     pressColor: "#3a80d2",
+    //     fontSize: 16,
+    //     fontWeight: "bold",
+    //   },
+    // }));
 
-    const volumeSlider = this.game.ui.add(new UISlider({
-      value: 0.8,
-      min: 0,
-      max: 1,
-      showValue: true,
-      anchor: "middleRight",
-      offset: { x: 0, y: 40 },
-      width: 220,
-      height: 30,
-    }));
+    // btn.onClick = () => {
+    //   console.log("Play clicked!");
+    //   // this.game.sceneManager.startScene("Game");
+    // };
 
-    const nameField = this.game.ui.add(new UIInputField({
-      placeholder: "Enter your name...",
-      value: "",
-      maxLength: 20,
-      anchor: "bottomCenter",
-      offset: { x: 0, y: 0 },
-      width: 260,
-      height: 42,
-    }));
+    // const sfxToggle = this.game.ui.add(new UICheckbox({
+    //   label: "Sound Effects",
+    //   checked: true,
+    //   anchor: "middleLeft",
+    //   offset: { x: 0, y: -20 },
+    //   width: 200,
+    //   height: 30,
+    // }));
+
+    // const volumeSlider = this.game.ui.add(new UISlider({
+    //   value: 0.8,
+    //   min: 0,
+    //   max: 1,
+    //   showValue: true,
+    //   anchor: "middleRight",
+    //   offset: { x: 0, y: 40 },
+    //   width: 220,
+    //   height: 30,
+    // }));
+
+    // const nameField = this.game.ui.add(new UIInputField({
+    //   placeholder: "Enter your name...",
+    //   value: "",
+    //   maxLength: 20,
+    //   anchor: "bottomCenter",
+    //   offset: { x: 0, y: 0 },
+    //   width: 260,
+    //   height: 42,
+    // }));
 
   }
 
@@ -183,11 +194,13 @@ export class Level1 extends Scene {
       this.lastTime = now;
     }
 
-    this.ctx.save();
-    this.ctx.fillStyle = "rgba(0, 0, 0, 0.85)";
-    this.ctx.font = "16px monospace";
-    this.ctx.fillText(`FPS: ${this.fps}`, 10, 20);
+    this.fpsText.text = `FPS: ${this.fps}`;
 
-    this.ctx.restore();
+    // this.ctx.save();
+    // this.ctx.fillStyle = "rgba(0, 0, 0, 0.85)";
+    // this.ctx.font = "16px monospace";
+    // this.ctx.fillText(`FPS: ${this.fps}`, 10, 20);
+
+    // this.ctx.restore();
   }
 }
