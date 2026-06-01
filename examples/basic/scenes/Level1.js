@@ -122,9 +122,10 @@ export class Level1 extends Scene {
       height: 48,
       zIndex: 1,
       style: {
-        primaryColor: "#4a90e2",
-        hoverColor: "#5aa0f2",
-        pressColor: "#3a80d2",
+        primaryColor: "#4a91e200",
+        hoverColor: "#5aa1f223",
+        pressColor: "#3a81d200",
+        textColor: "#000000",
         fontSize: 16,
         fontWeight: "bold",
       },

@@ -38,7 +38,11 @@ export class AudioManager {
     // ─────────────────────────────────────────────────────────────
 
     _ensureContext() {
-        if (this._ctx) return;
+        // if (this._ctx) return;
+        if (this._ctx) {
+            if (this._ctx.state === "suspended") this._ctx.resume();  // ← add this
+            return;
+        }
 
         this._ctx = new (window.AudioContext || window.webkitAudioContext)();
         this._masterGain = this._ctx.createGain();

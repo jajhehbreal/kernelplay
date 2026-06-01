@@ -17,6 +17,7 @@ export class Level2 extends Scene {
       // target: player,
     }));
 
-    this.addEntity(new TestPlayer(100, 100));
+    this.addEntity(camera);
+    this.addEntity(new TestPlayer());
   }
 }

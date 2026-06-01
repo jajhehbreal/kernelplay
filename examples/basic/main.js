@@ -17,9 +17,9 @@ class MyGame extends Game {
     this.sceneManager.addScene(new BenchmarkScene("Benchmark"));
 
     // this.sceneManager.startScene("Level1");
-    this.sceneManager.startScene("Level2");
+    // this.sceneManager.startScene("Level2");
     // this.sceneManager.startScene("Benchmark");
-    // this.sceneManager.startScene("Menu");
+    this.sceneManager.startScene("Menu");
 
   }
 }
