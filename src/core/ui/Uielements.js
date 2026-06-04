@@ -56,6 +56,8 @@ export class UIButton extends UIElement {
         this.label    = label;
         this.disabled = disabled;
         this._pressed = false;
+        this.onPointerDown = null;
+        this.onPointerUp   = null;
     }
 
     draw(ctx) {
@@ -93,6 +95,7 @@ export class UIButton extends UIElement {
     _onPointerDown() {
         if (this.disabled) return;
         this._pressed = true;
+        this.onPointerDown?.();
     }
 
     _onPointerUp() {
@@ -100,6 +103,7 @@ export class UIButton extends UIElement {
         if (this._pressed) {
             this._pressed = false;
             this.onClick?.();
+            this.onPointerUp?.();
         }
     }
 

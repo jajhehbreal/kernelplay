@@ -136,6 +136,47 @@ export class Level1 extends Scene {
       this.game.sceneManager.startScene("Level2");
     };
 
+    const leftBtn = this.game.ui.add(new UIButton({
+      label: "◀",
+      anchor: "bottomCenter",
+      offset: { x: -100, y: 30 },
+      width: 160,
+      height: 48,
+      zIndex: 1,
+      style: {
+        primaryColor: "#4a91e200",
+        hoverColor: "#5aa1f223",
+        pressColor: "#3a81d200",
+        textColor: "#000000",
+        fontSize: 16,
+        fontWeight: "bold",
+      },
+    }));
+
+    leftBtn.onPointerDown = () => { this._moveLeft  = true;  };
+    leftBtn.onPointerUp   = () => { this._moveLeft  = false; };
+
+    const rightBtn = this.game.ui.add(new UIButton({
+      label: "▶",
+      anchor: "bottomCenter",
+      offset: { x: 100, y: 30 },
+      width: 160,
+      height: 48,
+      zIndex: 1,
+      style: {
+        primaryColor: "#4a91e200",
+        hoverColor: "#5aa1f223",
+        pressColor: "#3a81d200",
+        textColor: "#000000",
+        fontSize: 16,
+        fontWeight: "bold",
+      },
+    }));
+
+    rightBtn.onPointerDown = () => { this._moveRight = true;  };
+    rightBtn.onPointerUp   = () => { this._moveRight = false; };
+
+
     // const sfxToggle = this.game.ui.add(new UICheckbox({
     //   label: "Sound Effects",
     //   checked: true,

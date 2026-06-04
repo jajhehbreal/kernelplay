@@ -77,12 +77,12 @@ export class PlayerController extends ScriptComponent {
         // if (Keyboard.isPressed("ArrowDown")) rb.velocity.y = 200;
 
         // if (Keyboard.isPressed(KeyCode.ArrowRight)) rb.addForce(800, 0);
-        if (Keyboard.isPressed(KeyCode.ArrowRight)) {
+        if (Keyboard.isPressed(KeyCode.ArrowRight) || this.scene._moveRight) {
             // rb.addForce(this.force, 0);
             rb.velocity.x = this.speed;
             this.sprite.flipX = false;
         }
-        if (Keyboard.isPressed(KeyCode.ArrowLeft)) {
+        if (Keyboard.isPressed(KeyCode.ArrowLeft) || this.scene._moveLeft) {
             // rb.addForce(-this.force, 0);
             rb.velocity.x = -this.speed;
             this.sprite.flipX = true;
