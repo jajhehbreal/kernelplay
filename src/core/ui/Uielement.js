@@ -14,6 +14,7 @@
  */
 export class UIElement {
     constructor({
+        id          = null,
         anchor      = "topLeft",
         offset      = { x: 0, y: 0 },
         width       = 100,
@@ -25,6 +26,7 @@ export class UIElement {
         zIndex      = 0,
         name        = "UIElement",
     } = {}) {
+        this.id          = id; 
         this.anchor      = anchor;
         this.offset      = { ...offset };
         this.width       = width;

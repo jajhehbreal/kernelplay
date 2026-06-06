@@ -3,7 +3,8 @@ import { Player } from "../prefabs/Player.js";
 import { Wall } from "../prefabs/Wall.js";
 import { Grass } from "../prefabs/Grass.js";
 import { Shape } from "../prefabs/Shape.js";
-import { CameraComponent, Entity, TransformComponent, FPSCounterComponent } from "../../../src/index.js";
+import { uiRef } from "../../../src/index.js";
+import { CameraComponent, Entity, TransformComponent, FPSCounterComponent, ScriptComponent } from "../../../src/index.js";
 // import { Cube } from "../prefabs/Cube.js";
 // import { Cube1 } from "../prefabs/Cube1.js";
 // import { Bullet } from "../prefabs/Bullet.js";
@@ -89,6 +90,28 @@ export class Level1 extends Scene {
     // this.addEntity(new Cube1(4,0,0));
     // this.addEntity(ground);
 
+    const UI_EventHandeler = new Entity("UI_EventHandeler");
+    UI_EventHandeler.id = 150;
+    UI_EventHandeler.addComponent("Script", new class extends ScriptComponent {
+      start() {
+        super.start();
+        this.input = {
+          moveLeft: false,
+          moveRight: false,
+          jump: false,
+        };
+
+        this.leftBtn.onPointerDown = () => { this.input.moveLeft = true; };
+        this.leftBtn.onPointerUp = () => { this.input.moveLeft = false; };
+        this.rightBtn.onPointerDown = () => { this.input.moveRight = true; };
+        this.rightBtn.onPointerUp = () => { this.input.moveRight = false; };
+      }
+    }({
+      leftBtn: uiRef(100),
+      rightBtn: uiRef(101),
+    }));
+    this.addEntity(UI_EventHandeler);
+
 
     console.log(this);
 
@@ -137,6 +160,7 @@ export class Level1 extends Scene {
     };
 
     const leftBtn = this.game.ui.add(new UIButton({
+      id: 100,
       label: "◀",
       anchor: "bottomCenter",
       offset: { x: -100, y: 30 },
@@ -153,10 +177,11 @@ export class Level1 extends Scene {
       },
     }));
 
-    leftBtn.onPointerDown = () => { this._moveLeft  = true;  };
-    leftBtn.onPointerUp   = () => { this._moveLeft  = false; };
+    // leftBtn.onPointerDown = () => { this._moveLeft  = true;  };
+    // leftBtn.onPointerUp   = () => { this._moveLeft  = false; };
 
     const rightBtn = this.game.ui.add(new UIButton({
+      id: 101,
       label: "▶",
       anchor: "bottomCenter",
       offset: { x: 100, y: 30 },
@@ -173,8 +198,8 @@ export class Level1 extends Scene {
       },
     }));
 
-    rightBtn.onPointerDown = () => { this._moveRight = true;  };
-    rightBtn.onPointerUp   = () => { this._moveRight = false; };
+    // rightBtn.onPointerDown = () => { this._moveRight = true;  };
+    // rightBtn.onPointerUp   = () => { this._moveRight = false; };
 
 
     // const sfxToggle = this.game.ui.add(new UICheckbox({

@@ -2,7 +2,7 @@ import { Entity } from "../../../src/index.js";
 import { BoxRenderComponent, ColliderComponent } from "../../../src/index.js";
 import { PlayerController } from "../scripts/PlayerController.js";
 import { Layers } from "../../../src/index.js";
-import { ref } from "../../../src/index.js";
+import { ref, uiRef } from "../../../src/index.js";
 
 // import { WebGLBoxRender2D } from "../../../src/index.js";
 import { TransformComponent } from "../../../src/index.js";
@@ -183,6 +183,9 @@ export function Player(x = 100, y = 100) {
     camera1: ref(100),
     camera2: ref(101),
     enemypos: ref(5).getComponent("transform"),
+    // leftBtn: uiRef(100),
+    // rightBtn: uiRef(101),
+    inputHandler: ref(150),
   }));
 
   player.addComponent("audio", new AudioSource({

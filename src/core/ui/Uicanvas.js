@@ -1,4 +1,4 @@
-import { UITheme }   from "./UITheme.js";
+import { UITheme } from "./UITheme.js";
 import { UIRaycast } from "./UIRaycast.js";
 
 /**
@@ -16,12 +16,12 @@ import { UIRaycast } from "./UIRaycast.js";
  */
 export class UICanvas {
     constructor(game) {
-        this._game     = game;
+        this._game = game;
         this._elements = [];    // flat sorted list
 
         // create overlay <canvas>
         this._canvas = document.createElement("canvas");
-        this._canvas.width  = game.config.width;
+        this._canvas.width = game.config.width;
         this._canvas.height = game.config.height;
         this._canvas.style.cssText = [
             "position: absolute",
@@ -36,9 +36,9 @@ export class UICanvas {
         gameCanvas.parentElement.style.position = "relative";
         gameCanvas.parentElement.appendChild(this._canvas);
 
-        this._ctx     = this._canvas.getContext("2d");
-        this.theme    = new UITheme();
-        this.raycast  = new UIRaycast(this._canvas, this);
+        this._ctx = this._canvas.getContext("2d");
+        this.theme = new UITheme();
+        this.raycast = new UIRaycast(this._canvas, this);
     }
 
     // ─────────────────────────────────────────────────────────────
@@ -54,7 +54,7 @@ export class UICanvas {
      */
     add(element) {
         element._canvas = this._canvas;
-        element._theme  = this.theme;
+        element._theme = this.theme;
         element.init();
 
         this._elements.push(element);
@@ -94,8 +94,8 @@ export class UICanvas {
 
     render() {
         const ctx = this._ctx;
-        const w   = this._canvas.width;
-        const h   = this._canvas.height;
+        const w = this._canvas.width;
+        const h = this._canvas.height;
 
         ctx.clearRect(0, 0, w, h);
 
@@ -131,6 +131,10 @@ export class UICanvas {
 
     findAll(name) {
         return this._elements.filter(e => e.name === name);
+    }
+
+    findById(id) {
+        return this._elements.find(e => e.id === id) ?? null;
     }
 
     // ─────────────────────────────────────────────────────────────

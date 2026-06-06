@@ -40,6 +40,23 @@ export class EntityReference {
   }
 }
 
+export class UIReference {
+    constructor(id) {
+        this.id        = id;
+        this._resolved = null;
+    }
+
+    resolve(game) {
+        if (this._resolved) return this._resolved;
+        this._resolved = game.ui.findById(this.id);
+        return this._resolved;
+    }
+}
+
+export function uiRef(id) {
+    return new UIReference(id);
+}
+
 // 🔥 Shorthand helper
 export function ref(entityId) {
   return new EntityReference(entityId);

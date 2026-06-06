@@ -51,6 +51,16 @@ export class PlayerController extends ScriptComponent {
         };
     }
 
+    // start() {
+    //     super.start();
+
+    //     this.leftBtn.onPointerDown = () => { this._moveLeft  = true;  };
+    //     this.leftBtn.onPointerUp   = () => { this._moveLeft  = false; };
+
+    //     this.rightBtn.onPointerDown = () => { this._moveRight = true;  };
+    //     this.rightBtn.onPointerUp   = () => { this._moveRight = false; };
+    // }
+
     update(dt) {
         const rb = this.entity.getComponent("rigidbody2d");
         const transform = this.entity.getComponent("transform");
@@ -76,13 +86,20 @@ export class PlayerController extends ScriptComponent {
         // if (Keyboard.isPressed("ArrowUp")) rb.velocity.y = -200;
         // if (Keyboard.isPressed("ArrowDown")) rb.velocity.y = 200;
 
+        // this._moveLeft = this.UI_EventHandeler.getComponent('Script')._moveLeft;
+        // this._moveRight = this.UI_EventHandeler.getComponent('Script')._moveRight;
+        const touch = this.inputHandler?.getComponent('Script')?.input;
+
         // if (Keyboard.isPressed(KeyCode.ArrowRight)) rb.addForce(800, 0);
-        if (Keyboard.isPressed(KeyCode.ArrowRight) || this.scene._moveRight) {
+        if (Keyboard.isPressed(KeyCode.ArrowRight) || this._moveRight || touch?.moveRight) {
             // rb.addForce(this.force, 0);
             rb.velocity.x = this.speed;
             this.sprite.flipX = false;
+            // console.log(this.UI_EventHandeler);
+            // console.log(this.UI_EventHandeler.getComponent('Script'));
+
         }
-        if (Keyboard.isPressed(KeyCode.ArrowLeft) || this.scene._moveLeft) {
+        if (Keyboard.isPressed(KeyCode.ArrowLeft) || this._moveLeft || touch?.moveLeft) {
             // rb.addForce(-this.force, 0);
             rb.velocity.x = -this.speed;
             this.sprite.flipX = true;

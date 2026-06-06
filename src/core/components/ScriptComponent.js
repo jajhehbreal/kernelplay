@@ -1,5 +1,5 @@
 import { Component } from "../Component.js";
-import { EntityReference } from "../EntityReference.js";
+import { EntityReference, UIReference } from "../EntityReference.js";
 
 export class ScriptComponent extends Component {
   constructor(props = {}) {
@@ -16,7 +16,11 @@ export class ScriptComponent extends Component {
       this[key] = value;
 
       // Track EntityReferences for auto-resolution
-      if (value instanceof EntityReference) {
+      // if (value instanceof EntityReference) {
+      //   this._references.set(key, value);
+      // }
+
+      if (value instanceof EntityReference || value instanceof UIReference) {
         this._references.set(key, value);
       }
     }
@@ -36,8 +40,19 @@ export class ScriptComponent extends Component {
 
     if (!this.entity.scene) return;
 
+    // for (const [key, ref] of this._references) {
+    //   this[key] = ref.resolve(this.entity.scene);
+    // }
+
     for (const [key, ref] of this._references) {
-      this[key] = ref.resolve(this.entity.scene);
+      // existing entity refs
+      if (ref instanceof EntityReference) {
+        this[key] = ref.resolve(this.entity.scene);
+      }
+      // ← add this
+      if (ref instanceof UIReference) {
+        this[key] = ref.resolve(this.entity.scene.game);
+      }
     }
   }
 
@@ -60,7 +75,7 @@ export class ScriptComponent extends Component {
   //   return entity;
   // }
 
-  
+
   setPrimaryCamera(camera) {
     const cam = camera.getComponent("camera");
     this.entity.scene.setPrimaryCamera(cam);
