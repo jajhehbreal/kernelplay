@@ -21,16 +21,16 @@ export class Game {
 
     // this.camera = new Camera2D(this.config.width, this.config.height);
     this.audio = new AudioManager();
-
     Mouse.init(this.canvas.canvas); // 🔥 IMPORTANT
 
+    
     // 🔥 default renderer
     this.renderer = options.renderer || new CanvasRenderer();
     this.renderer.init(this);
-
+    
     // create the UI layer
     this.ui = new UICanvas(this);
-
+    
     // 🔥 Inject Game into SceneManager
     this.sceneManager = new SceneManager(this);
 

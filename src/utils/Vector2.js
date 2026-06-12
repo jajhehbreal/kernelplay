@@ -47,6 +47,12 @@ export class Vector2 {
         return Math.sqrt(dx * dx + dy * dy);
     }
 
+    static distanceSq(a, b) {
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        return dx * dx + dy * dy;
+    }
+
     static dot(a, b) {
         return a.x * b.x + a.y * b.y;
     }

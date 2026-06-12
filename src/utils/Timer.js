@@ -2,6 +2,7 @@ export class Timer {
     constructor(duration = 1, autoStart = false) {
         this.duration = duration;
         this.time = 0;
+
         this.running = autoStart;
         this.finished = false;
     }
@@ -27,6 +28,7 @@ export class Timer {
         this.time += dt;
 
         if (this.time >= this.duration) {
+            this.time = this.duration; // clamp, no overshoot
             this.finished = true;
             this.running = false;
         }
@@ -37,6 +39,7 @@ export class Timer {
     }
 
     progress() {
+        if (this.duration <= 0) return 1;
         return Math.min(this.time / this.duration, 1);
     }
 }

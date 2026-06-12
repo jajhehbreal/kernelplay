@@ -51,7 +51,7 @@ class PlayerScript extends ScriptComponent {
     update(dt) {
 
         this.fireCooldown.update(dt);
-        // this.timer.update(dt);
+        this.timer.update(dt);
 
         if (Keyboard.isPressed(KeyCode.ArrowRight)) this.rb.addForce(800, 0);
         if (Keyboard.isPressed(KeyCode.ArrowLeft)) this.rb.addForce(-800, 0);
@@ -107,6 +107,9 @@ class PlayerScript extends ScriptComponent {
             // this.transform.position.x += dir.x * 100 * dt;
             // this.transform.position.y += dir.y * 100 * dt;
 
+            console.log(Vector2.distanceSq(new Vector2(0,0), this.transform.position));
+            
+
         }
 
         this.transform.position.x = Mathf.clamp(this.transform.position.x, 20, 780)
@@ -114,6 +117,8 @@ class PlayerScript extends ScriptComponent {
 
 
         if (Mouse.isPressed(MouseButton.Left)) {
+            // console.log('j');
+            // let pos = this.camera.screenToWorld(Mouse.x, Mouse.y);
             this.transform.position.x = Mathf.lerp(this.transform.position.x, Mouse.x, 0.05)
             this.transform.position.y = Mathf.lerp(this.transform.position.y, Mouse.y, 0.05)
         }
