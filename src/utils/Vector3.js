@@ -27,6 +27,14 @@ export class Vector3 {
         );
     }
 
+    lengthSq() {
+        return (
+            this.x * this.x +
+            this.y * this.y +
+            this.z * this.z
+        );
+    }
+
     normalize() {
         const len = this.length();
 
@@ -86,12 +94,42 @@ export class Vector3 {
         );
     }
 
+    static normalize(v) {
+        const len = Math.sqrt(
+            v.x * v.x +
+            v.y * v.y +
+            v.z * v.z
+        );
+
+        if (len === 0) {
+            return new Vector3(0, 0, 0);
+        }
+
+        return new Vector3(
+            v.x / len,
+            v.y / len,
+            v.z / len
+        );
+    }
+
     static distance(a, b) {
         const dx = a.x - b.x;
         const dy = a.y - b.y;
         const dz = a.z - b.z;
 
         return Math.sqrt(
+            dx * dx +
+            dy * dy +
+            dz * dz
+        );
+    }
+
+    static distanceSq(a, b) {
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const dz = a.z - b.z;
+
+        return (
             dx * dx +
             dy * dy +
             dz * dz

@@ -19,6 +19,14 @@ export class Vector2 {
         return Math.sqrt(this.x * this.x + this.y * this.y);
     }
 
+    lengthSq() {
+        return this.x * this.x + this.y * this.y;
+    }
+
+    angle() {
+        return Math.atan2(this.y, this.x);
+    }
+
     normalize() {
         const len = this.length();
         if (len === 0) return this;
@@ -39,6 +47,19 @@ export class Vector2 {
 
     static scale(v, s) {
         return new Vector2(v.x * s, v.y * s);
+    }
+
+    static normalize(v) {
+        const len = Math.sqrt(v.x * v.x + v.y * v.y);
+
+        if (len === 0) {
+            return new Vector2();
+        }
+
+        return new Vector2(
+            v.x / len,
+            v.y / len
+        );
     }
 
     static distance(a, b) {
