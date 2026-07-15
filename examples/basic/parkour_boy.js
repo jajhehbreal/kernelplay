@@ -17,7 +17,7 @@
 //
 // -----------------------------------------------------------------------------
 
-import { BoxRenderComponent, Entity, Game, Random, ref, Scene } from "../../src/index.js";
+import { BoxRenderComponent, Entity, Game, Random, ref, Scene, UIText, UIButton, UIPanel } from "../../src/index.js";
 import {
     TransformComponent,
     CameraComponent,
@@ -641,6 +641,7 @@ class Level extends Scene {
         this.frames = 0;
         this.lastTime = performance.now();
         this.score = 0;
+        this.gameover = false;
 
         const camera = new Camera(0, 0, this.game.config.width, this.game.config.height);
         this.addEntity(camera);
@@ -648,6 +649,7 @@ class Level extends Scene {
         const player = new Player(0, 0);
         this.addEntity(player);
         this.addEntity(new BackGround(0, 300));
+        this.PlayerScript = player.getComponent("script");
 
         this.spawn(PlayerCorpse, 800, 0);
 
@@ -689,6 +691,94 @@ class Level extends Scene {
         this.spawn(PlatformLong, 580, 180);
         this.spawn(PlatformShot, -300, 100);
 
+        this.scoreText = this.game.ui.add(new UIText({
+            text: "Score: 0",
+            anchor: "topLeft",
+            offset: { x: 2, y: 1 },
+            style: {
+                textColor: "rgba(255, 255, 255, 0.85)",
+                fontSize: 20,
+                fontFamily: "monospace",
+                fontWeight: "bold",
+            },
+        }));
+
+        this.FPSText = this.game.ui.add(new UIText({
+            text: `FPS: ${this.fps}`,
+            anchor: "topRight",
+            offset: { x: 1, y: 1 },
+            style: {
+                textColor: "rgba(255, 255, 255, 0.85)",
+                fontSize: 20,
+                fontFamily: "monospace",
+                fontWeight: "bold",
+            },
+        }));
+
+        this.panel = this.game.ui.add(new UIPanel({
+            anchor: "center",
+            offset: { x: 0, y: 0 },
+            width: 400,
+            height: 300,
+            zIndex: 0,
+            visible: false,
+
+            // per-element style overrides
+            style: {
+                surfaceColor: "#1a1a2e75",
+                borderColor: "#e63946",
+                borderWidth: 2,
+                borderRadius: 12,
+            },
+        }));
+
+        this.gameoverText = this.game.ui.add(new UIText({
+            text: `Game Over`,
+            anchor: "center",
+            offset: { x: 0, y: -50 },
+            visible: false,
+            style: {
+                textColor: "#ffffff",
+                fontSize: 40,
+                fontFamily: "monospace",
+                fontWeight: "bolder",
+            },
+        }));
+
+        this.bestscore = this.game.ui.add(new UIText({
+            text: `Best Score: ${this.score}`,
+            anchor: "center",
+            offset: { x: 0, y: 0 },
+            visible: false,
+            style: {
+                textColor: "#ffffff",
+                fontSize: 20,
+                fontFamily: "monospace",
+                fontWeight: "bolder",
+            },
+        }));
+
+        this.restarBtn = game.ui.add(new UIButton({
+            label: "Restart",
+            anchor: "center",
+            offset: { x: 0, y: 50 },
+            width: 160,
+            height: 48,
+            zIndex: 1,
+            visible: false,
+            style: {
+                primaryColor: "#e24a4a",
+                hoverColor: "#f25a5a",
+                pressColor: "#d23a3a",
+                fontSize: 16,
+                fontWeight: "bold",
+            },
+        }));
+
+        this.restarBtn.onClick = () => {
+            location.reload();
+        };
+
         // Camera follow
         camera.getComponent("camera").setTarget(player);
 
@@ -713,19 +803,33 @@ class Level extends Scene {
             this.lastTime = now;
         }
 
+        this.scoreText.text = `Score: ${this.score}`;
+        this.FPSText.text = `FPS: ${this.fps}`;
+
+        if (this.PlayerScript.isLose && !this.gameover) {
+            this.gameover = true;
+            this.bestscore.text = `Best Score: ${this.score}`;
+            this.gameoverText.visible = true;
+            this.bestscore.visible = true;
+            this.panel.visible = true;
+            this.FPSText.visible = false;
+            this.scoreText.visible = false;
+            this.restarBtn.visible = true;
+        }
+
         // Renders the FPS counter and player score on the screen using the canvas
         // context. The drawing state is preserved using save() and restore() to
         // prevent side effects on other rendering operations.
-        this.ctx.save();
-        this.ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
-        this.ctx.font = "20px monospace";
-        this.ctx.fillText(`FPS: ${this.fps}`, 715, 20);
+        // this.ctx.save();
+        // this.ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
+        // this.ctx.font = "20px monospace";
+        // this.ctx.fillText(`FPS: ${this.fps}`, 715, 20);
 
-        this.ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
-        this.ctx.font = "20px monospace";
-        this.ctx.fillText(`Score: ${this.score}`, 10, 20);
+        // this.ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
+        // this.ctx.font = "20px monospace";
+        // this.ctx.fillText(`Score: ${this.score}`, 10, 20);
 
-        this.ctx.restore();
+        // this.ctx.restore();
     }
 }
 
