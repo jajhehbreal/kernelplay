@@ -4,7 +4,7 @@ import { Wall } from "../prefabs/Wall.js";
 import { Bullet } from "../prefabs/Bullet.js";
 import { Layers } from "../../../src/index.js";
 import { KeyCode } from "../../../src/index.js";
-import { MouseButton, Mathf } from "../../../src/index.js";
+import { MouseButton, Mathf, HashString } from "../../../src/index.js";
 
 
 // import * as PIXI from "pixi.js";
@@ -300,23 +300,23 @@ export class PlayerController extends ScriptComponent {
             // console.log(Mathf.wrapRadians(-Math.PI));    // Output: 3.14159... (Wrapped to positive)
 
 
-            // // --- hash32() ---
-            // // Great for creating quick, short IDs for things like dictionary keys or simple state checks
-            // let shortId1 = HashString.hash32("player_one");
-            // let shortId2 = HashString.hash32("player_one");
-            // let shortId3 = HashString.hash32("player_two");
+            // --- hash32() ---
+            // Great for creating quick, short IDs for things like dictionary keys or simple state checks
+            let shortId1 = HashString.HashString32("player_one");
+            let shortId2 = HashString.HashString32("player_one");
+            let shortId3 = HashString.HashString32("player_two");
 
-            // console.log(shortId1); // Output: (e.g.) 3514936306
-            // console.log(shortId1 === shortId2); // Output: true (Same string = same hash)
-            // console.log(shortId1 === shortId3); // Output: false
+            console.log(shortId1); // Output: (e.g.) 3514936306
+            console.log(shortId1 === shortId2); // Output: true (Same string = same hash)
+            console.log(shortId1 === shortId3); // Output: false
 
 
-            // // --- hash64() ---
-            // // Better for larger datasets where you want to practically eliminate the chance of collisions
-            // // Remember: 64-bit hashes return a BigInt, so it has an 'n' at the end!
-            // let longId = HashString.hash64("https://github.com/Soubhik1000/kernelplay/pull/8");
+            // --- hash64() ---
+            // Better for larger datasets where you want to practically eliminate the chance of collisions
+            // Remember: 64-bit hashes return a BigInt, so it has an 'n' at the end!
+            let longId = HashString.HashString64("https://github.com/Soubhik1000/kernelplay/pull/8");
 
-            // console.log(longId); // Output: (e.g.) 15720349857923485n
+            console.log(longId); // Output: (e.g.) 15720349857923485n
 
         }
 
