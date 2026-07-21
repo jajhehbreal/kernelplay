@@ -64,7 +64,7 @@ export class Mathf {
         return Math.floor(value/multiple) * multiple;
     }
 
-    static PingPong(value,lenght){
+    static pingPong(value,lenght){
         const p = value % (lenght*2)
         // If p >= length, we're on the downward part → length * 2 - p maps length → length and length * 2 → 0.
         return  P < lenght ?  P : lenght * 2 - p; 
