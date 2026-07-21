@@ -94,13 +94,13 @@ export class Vector2 {
     }
 
     static Reflect(incident, normal) {
-        // Dot product: incident * normal
-        const dot = incident.x * normal.x + incident.y * normal.y;
-
-        // R = V - 2 * (V * N) * N
-        return new Vector2(
-            incident.x - 2 * dot * normal.x,
-            incident.y - 2 * dot * normal.y
-        );
+    // Dot product: incident * normal 
+    const dot = incident.x * normal.x + incident.y * normal.y; 
+    
+    // R = V - 2 * (V * N) * N 
+    return new Vector2( 
+        incident.x - 2 * dot * normal.x, 
+        incident.y - 2 * dot * normal.y 
+    ); 
     }
 }
